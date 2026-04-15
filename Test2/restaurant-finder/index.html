@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找餐廳工具 - 美食探索</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 背景裝飾 -->
+    <div class="ambient-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <header class="header">
+            <div class="logo-area">
+                <i class="ph-fill ph-fork-knife" style="color: var(--primary); font-size: 2.5rem;"></i>
+                <h1>EAT<span style="font-weight: 300;">EXPLORE</span></h1>
+            </div>
+            <p>設定條件，為您尋找周邊頂級美味</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 搜尋設定面板 -->
+            <aside class="search-panel glassy">
+                <div class="form-group">
+                    <label for="addressInput"><i class="ph ph-map-pin"></i> 您的位置</label>
+                    <div class="input-wrapper custom-autocomplete-container">
+                        <input type="text" id="addressInput" placeholder="輸入地址或景點 (如: 台北101)" autocomplete="off">
+                        <div id="suggestionsBox" class="suggestions-dropdown hidden"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="foodType"><i class="ph ph-hamburger"></i> 料理類型</label>
+                    <div class="select-wrapper">
+                        <select id="foodType">
+                            <option value="restaurant">🌍 不限種類</option>
+                            <option value="taiwanese_restaurant">🥢 台式料理</option>
+                            <option value="japanese_restaurant">🍣 日式料理</option>
+                            <option value="korean_restaurant">🥓 韓式料理</option>
+                            <option value="italian_restaurant">🍝 義式料理</option>
+                            <option value="american_restaurant">🍔 美式餐廳</option>
+                            <option value="cafe">☕ 咖啡廳</option>
+                            <option value="bar">🍸 餐酒館 / 酒吧</option>
+                            <option value="vegetarian_restaurant">🥗 素食</option>
+                        </select>
+                        <i class="ph ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="priceRange">
+                        <span><i class="ph ph-money"></i> 預算上限</span>
+                        <span id="priceLabel" class="price-badge">$500</span>
+                    </label>
+                    <input type="range" id="priceRange" min="1" max="4" value="2" class="slider" step="1">
+                    <div class="range-marks">
+                        <span>$200</span>
+                        <span>$500</span>
+                        <span>$1500</span>
+                        <span>$3000+</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sortBy"><i class="ph ph-sort-ascending"></i> 排序方式</label>
+                    <div class="select-wrapper">
+                        <select id="sortBy">
+                            <option value="rating">⭐ 依評分 (由高到低)</option>
+                            <option value="prominence">🔥 依熱門度 (預設)</option>
+                            <option value="distance">📍 依距離 (由近到遠)</option>
+                        </select>
+                        <i class="ph ph-caret-down select-icon"></i>
+                    </div>
+                </div>
+
+                <button id="searchBtn" class="btn-primary">
+                    <span class="btn-text">開始探索</span>
+                    <i class="ph-bold ph-arrow-right btn-icon"></i>
+                    <i class="ph-bold ph-spinner-gap spinner hidden"></i>
+                </button>
+            </aside>
+
+            <!-- 搜尋結果區 -->
+            <section class="results-section glassy">
+                <div class="results-header">
+                    <h2>搜尋結果</h2>
+                    <div class="badge-count"><span id="resultsCount">0</span> 間餐廳</div>
+                </div>
+                <div id="resultsList" class="results-container">
+                    <div class="empty-state">
+                        <div class="empty-illustration">
+                            <i class="ph-duotone ph-magnifying-glass"></i>
+                        </div>
+                        <h3>準備好大快朵頤了嗎？</h3>
+                        <p>設定上方的條件，按下搜尋，美味馬上就來。</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 餐廳詳細 Modal -->
+    <div id="restaurantModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-card glassy-modal">
+            <button class="close-btn"><i class="ph-bold ph-x"></i></button>
+            <div id="modalBody" class="modal-content-inner">
+                <!-- 動態注入內容 -->
+            </div>
+        </div>
+    </div>
+
+    <div id="map" style="display: none;"></div>
+
+    <script src="app.js"></script>
+    <!-- 請記得將 YOUR_API_KEY 替換為你的 API Key -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initApp"></script>
+</body>
+</html>
